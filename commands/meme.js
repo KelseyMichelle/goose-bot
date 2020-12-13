@@ -137,11 +137,11 @@ module.exports = {
     hidden: false,
     execute(message, args, edgy, type) {
         if (edgy === undefined) {
-            postMeme(message, args, false, "meme");
+            postMeme(message, args, false, "memes");
         }
         else {
             if(type === undefined) {
-                postMeme(message, args, edgy, "meme");
+                postMeme(message, args, edgy, "memes");
             }
             postMeme(message, args, edgy, type)
         }
