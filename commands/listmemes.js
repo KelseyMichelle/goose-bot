@@ -26,7 +26,7 @@ function listMemes(message, args) {
         if (embed.fields)
         embed.fields.push({
             "name": `"${memeNames[i]}"`,
-            "value": `${memefile[guildID][memeNames[i]].length} available memes under this name`
+            "value": `${memefile[guildID][memeNames[i]].length} available meme${memefile[guildID][memeNames[i]].length > 1 ? "s" : ""} under this name`
         },);  
     }
     message.channel.send({ embed });
