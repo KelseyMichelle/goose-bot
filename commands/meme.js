@@ -55,7 +55,7 @@ function postMeme(message, args) {
                  message.channel.send("there are no memes stored. go bug kelsey, she probably fucked something up.")
              }
              return;};
-        let memeFilePath = memeFolder + memefile[guildID][whichMeme][meme]; 
+        let memeFilePath = memeFolder + parseName(memefile[guildID][whichMeme][meme]); 
         let memeFile = new Discord.MessageAttachment(memeFilePath, meme);
         message.channel.send(memeFile);
         return;
