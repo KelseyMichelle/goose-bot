@@ -10,10 +10,8 @@ function randomIntRange(min, max) {
 function fileExists(fileName, memeName, guildID, memefile) {
     if (!fs.existsSync(memeFolder + fileName)) {
         memefile[guildID][memeName].splice(memefile[guildID][memeName].indexOf(fileName), 1);
-        console.log(memefile);
         fs.writeFileSync(memeLog, JSON.stringify(memefile), function writeJSON(err) {
             if (err) return console.log(err);
-            console.log(memefile);
         })
         return false;
     }
