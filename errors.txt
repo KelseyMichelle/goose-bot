@@ -1,2 +1,18 @@
 Error: ENOENT: no such file or directory, open './memes/memes.json' 
 ,
+Error: ENOENT: no such file or directory, open './memes/memes.json' 
+,
+ReferenceError: meme is not defined 
+,
+ReferenceError: meme is not defined 
+,
+Error: ENOENT: no such file or directory, open './memes.json' 
+,
+Error: ENOENT: no such file or directory, open './memes.json' 
+,
+Error: ENOENT: no such file or directory, open 'memes.json' 
+,
+Error: ENOENT: no such file or directory, open '../memesmemes.json' 
+,
+Error: ENOENT: no such file or directory, open '../memes/memes.json' 
+,

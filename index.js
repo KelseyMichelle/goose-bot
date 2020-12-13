@@ -20,7 +20,7 @@ client.once("ready", () => {
 });
 
 client.on("message", (message) => {
-  let logInfo = `{author: "${message.author.username}#${message.author.tag}", authorID: "${message.author}", `;
+  let logInfo = `{author: "${message.author.tag}", authorID: "${message.author}", `;
   if (message.content.endsWith("(y/n)")) {
     logInfo += `command: "${message.content}"`;
     message.react("🇾");
