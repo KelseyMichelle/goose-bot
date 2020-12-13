@@ -1,4 +1,4 @@
-const { avatar } = require("./config.json");
+const { avatar } = require("./config.js");
 function newembed() {
     let em = {
         "title": "title",

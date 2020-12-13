@@ -3,3 +3,4 @@ config/config.json
 commandLog.txt
 errors.txt
 memes/memes.json
+memes

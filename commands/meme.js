@@ -4,7 +4,7 @@ const { memeFolder, memeLog } = require("../config/filepaths.js")
 const { prefix } = require("../config/config.js");
 
 function randomIntRange(min, max) {
-    return Math.floor(Math.random() * Math.floor(max) + min);
+    return Math.floor(Math.random() * (max - min)+min);
 }
 
 function postMeme(message, args) {
@@ -13,9 +13,11 @@ function postMeme(message, args) {
     let memefile = JSON.parse(fs.readFileSync(memeLog));
     if (args.length === 0) {
         let memenames = Object.keys(memefile[guildID]);
-        let whichMeme = memefile[memenames[randomIntRange(0, memenames.length)]];
-        let meme = randomIntRange(0, whichmeme.length);
-        let memeFilePath = memeFolder + memefile[guildID][memeName][meme];
+        let memeNum = memenames.length;
+        let memeIndex = randomIntRange(0, memeNum);
+        let whichMeme = memenames[memeIndex];
+        let meme = randomIntRange(0, memefile[guildID][whichMeme].length);
+        let memeFilePath = memeFolder + memefile[guildID][whichMeme][meme];
         let memeFile = new Discord.MessageAttachment(memeFilePath, meme);
         message.channel.send(memeFile);
         return;

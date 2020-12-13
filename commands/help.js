@@ -1,5 +1,6 @@
 const embedStructure = require('../config/embed.js');
 const fs = require("fs");
+const { prefix } = require('../config/config.js');
 
 const commandFiles = fs
   .readdirSync("./commands")
@@ -18,7 +19,7 @@ for (let i = 0; i < commands.length; ++i) {
     embed.title = "available commands";
     if (!commands[i].hidden)
         embed.fields.push({
-            "name": commands[i].name,
+            "name": prefix + commands[i].name,
             "value": commands[i].description
         },);
         

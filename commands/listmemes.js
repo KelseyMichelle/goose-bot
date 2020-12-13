@@ -20,13 +20,16 @@ function listMemes(message, args) {
         return;
     }
     let memeNames = Object.keys(memefile[guildID]);
+    let result = ``;
     for (let i = 0; i < memeNames.length; ++i) {
-        embed.title = "available memes";
-        if (embed.fields)
-        embed.fields.push({
-            "name": `"${memeNames[i]} - ${memefile[guildID][memeNames[i]].length} available meme${memefile[guildID][memeNames[i]].length > 1 ? "s" : ""} under this name"`,
-        },);  
+        result += `${memeNames[i]} - ${memefile[guildID][memeNames[i]].length} available\n`
     }
+    embed.title = "listmemes";
+    if (embed.fields)
+        embed.fields.push({
+            "name": "available memes",
+            "value": result,
+        },);  
     message.channel.send({ embed });
 }
 
