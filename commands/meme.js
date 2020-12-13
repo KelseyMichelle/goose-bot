@@ -135,8 +135,8 @@ module.exports = {
     access_level: 0,
     hidden: false,
     execute(message, args, edgy, type) {
-        if (edgy === undefined) {
-            if(type === undefined) {
+        if (type === undefined) {
+            if(edgy === undefined) {
                 postMeme(message, args, false, "memes");
                 return;
             }
