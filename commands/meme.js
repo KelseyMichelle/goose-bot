@@ -59,7 +59,6 @@ function parseName(filename) {
     if (filename.startsWith('./memes')) {
         return filename.split("/").reverse()[0];
     }
-    console.log("leaving parsename: " + filename);
     return filename;
 }
 
@@ -77,10 +76,10 @@ function postMeme(message, args, edgy, type) {
         let memeIndex = randomIntRange(0, memeNum);
         let whichMeme = memenames[memeIndex];
         let meme = randomIntRange(0, memefile[guildID][whichMeme].length);
-        console.log(memefile[guildID][whichMeme][meme]);
         if (!fileExists(parseName(memefile[guildID][whichMeme][meme]), whichMeme, guildID, memefile, edgy)) {
              if (countFiles(memefile, guildID, edgy)) {
                 postMeme(message, args, edgy);
+                return;
              } else {
                 message.channel.send(`there are no ${edgy ? "edgy " : ""} ${type} stored. go bug kelsey, she probably messed something up.`)
              }
@@ -88,7 +87,6 @@ function postMeme(message, args, edgy, type) {
             };
         let memeFilePath = parseName(memefile[guildID][whichMeme][meme]); 
         if ((memeFilePath.startsWith("SPOILER_") && !edgy) || (!memeFilePath.startsWith("SPOILER_") && edgy)) {
-            console.log(`if edgy is ${edgy}, it evaluates to ${memeFilePath.startsWith("SPOILER_") && !edgy}`);
             if (!countFiles(memefile,guildID, edgy)) {
                 message.channel.send(`there arent any ${edgy ? "edgy" : "normie"} ${type}s!`);
                 return;
@@ -117,6 +115,7 @@ function postMeme(message, args, edgy, type) {
             if (!fileExistsReg(parseName(memefile[guildID][memeName][meme]), memeName, guildID, memefile)) { postMeme(message, args, edgy); return };
             let memeFile = new Discord.MessageAttachment(memeFilePath, meme);
             message.channel.send(memeFile);
+            return;
         } else if (memefile[guildID][memeName].length === 1) {
             if (!fileExistsReg(parseName(memefile[guildID][memeName][0]), memeName, guildID, memefile)) { postMeme(message, args); return };
             let memeFilePath = memeFolder + parseName(memefile[guildID][memeName][0]);
@@ -137,13 +136,15 @@ module.exports = {
     hidden: false,
     execute(message, args, edgy, type) {
         if (edgy === undefined) {
-            postMeme(message, args, false, "memes");
+            if(type === undefined) {
+                postMeme(message, args, false, "memes");
+                return;
+            }
+            postMeme(message, args, edgy, "memes");
+            return;
         }
         else {
-            if(type === undefined) {
-                postMeme(message, args, edgy, "memes");
-            }
-            postMeme(message, args, edgy, type)
+            postMeme(message, args, edgy, type);
         }
     },
   };
