@@ -7,7 +7,7 @@ module.exports = {
   hidden: false,
   access_level: 1,
   execute(message, args) {
-    message.bulkDelete(1);
+    message.channel.bulkDelete(1);
     amount = parseInt(args[0]);
     if (isNaN(amount)) {
       return message.reply("that is not a valid number");
