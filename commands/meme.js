@@ -84,9 +84,10 @@ function postMeme(message, args, edgy) {
         let memeFilePath = parseName(memefile[guildID][whichMeme][meme]); 
         if ((memeFilePath.startsWith("SPOILER_") && !edgy) || (!memeFilePath.startsWith("SPOILER_") && edgy)) {
             console.log(`if edgy is ${edgy}, it evaluates to ${memeFilePath.startsWith("SPOILER_") && !edgy}`);
-            console.log("reloopings");
+            if (!countFiles(memeFilePath,guildID, edgy)) {
+                return;
+            }
             postMeme(message, args, edgy);
-            
             return;
         }
         memeFilePath = memeFolder + memeFilePath;
