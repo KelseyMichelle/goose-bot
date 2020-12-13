@@ -2,7 +2,7 @@ module.exports = {
   name: "avatar",
   description:
     "Produces the avatar URL for each user mentioned, or the one sending the message if no mentions",
-  hidden: false,
+  hidden: true,
   access_level: 0,
   execute(message, args) {
     if (message.mentions.users.size == 0) {

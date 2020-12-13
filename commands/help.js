@@ -34,6 +34,10 @@ module.exports = {
     hidden: false,
     access_level: 0,
     execute(message, args) {
-      listCommands(message);
+        if (args.length === 0) {
+            listCommands(message);
+        }
+        
+      
     },
   }

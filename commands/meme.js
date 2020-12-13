@@ -1,20 +1,27 @@
 const fs = require('fs');
 const Discord = require('discord.js');
-const memeFolder = "./memes/";
-const memeLog = `${memeFolder}memes.json`;
+const { memeFolder, memeLog } = require("../config/filepaths.js")
+const { prefix } = require("../config/config.js");
 
 function randomIntRange(min, max) {
     return Math.floor(Math.random() * Math.floor(max) + min);
 }
 
 function postMeme(message, args) {
+    let guildID = message.guild.id;
+    let memeName = args.join(" ").toLowerCase();
+    let memefile = JSON.parse(fs.readFileSync(memeLog));
     if (args.length === 0) {
-        message.channel.send("failed to find meme, must give name");
+        let memenames = Object.keys(memefile[guildID]);
+        let whichMeme = memefile[memenames[randomIntRange(0, memenames.length)]];
+        let meme = randomIntRange(0, whichmeme.length);
+        let memeFilePath = memeFolder + memefile[guildID][memeName][meme];
+        let memeFile = new Discord.MessageAttachment(memeFilePath, meme);
+        message.channel.send(memeFile);
+        console.log(memeFilePath);
         return;
     }
-    let guildID = message.guild.id;
-    let memeName = args.join(" ");
-    let memefile = JSON.parse(fs.readFileSync(memeLog));
+
     if (!(guildID in memefile)) {
         message.channel.send("unable to find that meme, sorry :(");
         return;
@@ -38,7 +45,8 @@ function postMeme(message, args) {
 
 module.exports = {
     name: "meme",
-    description: "posts a meme from the meme archive",
+    description: "posts a meme from the meme archive.",
+    syntax: `${prefix+this.name} [meme name] (note: quotation marks are not needed here)`,
     access_level: 0,
     hidden: false,
     execute(message, args) {

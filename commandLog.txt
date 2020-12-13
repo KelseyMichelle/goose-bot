@@ -19,3 +19,5 @@
 {author: "keteskyl#9818", authorID: "<@213482623438159872>", command: ";meme jr", result: "execution failure"},
 {author: "keteskyl#9818", authorID: "<@213482623438159872>", command: ";meme jr", result: "success"},
 {author: "keteskyl#9818", authorID: "<@213482623438159872>", command: ";meme jr", result: "success"},
+{author: "keteskyl#9818", authorID: "<@213482623438159872>", command: ".ping", result: "success"},
+{author: "keteskyl#9818", authorID: "<@213482623438159872>", command: ".ping", result: "success"},

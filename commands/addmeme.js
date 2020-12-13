@@ -1,4 +1,4 @@
-const { prefix } = require("../config/config.json");
+const { prefix } = require("../config/config.js");
 const { memeLog } = require('../helpers/logger.js');
 
 

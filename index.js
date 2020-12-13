@@ -1,9 +1,11 @@
+require('./config/genConfig.js');
+const { prefix, token } = require("./config/config.js");
 const Discord = require("discord.js");
 const fs = require("fs");
 const client = new Discord.Client();
-const { prefix, token } = require("./config/config.json");
 const access = require('./helpers/hasaccess.js');
 const { log } = require('./helpers/logger.js');
+
 client.commands = new Discord.Collection();
 
 const commandFiles = fs
@@ -21,7 +23,7 @@ client.once("ready", () => {
 
 client.on("message", (message) => {
   let logInfo = `{author: "${message.author.tag}", authorID: "${message.author}", `;
-  if (message.content.endsWith("(y/n)")) {
+  if (message.content.toLowerCase().endsWith("(y/n)")) {
     logInfo += `command: "${message.content}"`;
     message.react("🇾");
     message.react("🇳");
@@ -32,7 +34,7 @@ client.on("message", (message) => {
   const args = message.content.slice(prefix.length).trim().split(/ +/);
   const command = args.shift().toLowerCase();
   if (!client.commands.has(command)) {
-    logInfo += `command: "${message.content}", result: "error: the !${command} command does not exist!"}`;
+    logInfo += `command: "${message.content}", result: "error: the ${prefix}${command} command does not exist!"}`;
     message.reply(`the !${command} command does not exist!`);
   }
   else { 

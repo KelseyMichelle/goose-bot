@@ -21,7 +21,7 @@ function logMemes(message, args) {
     let file = fs.readFileSync(memeLogFile);
     let memefile = JSON.parse(file);
     let guildID = message.guild.id;
-    let memeName = args.join(" ");
+    let memeName = args.join(" ").toLoweCase();
     if (!(memefile.hasOwnProperty(guildID))) {
         memefile[guildID] = {};
     }
@@ -33,13 +33,12 @@ function logMemes(message, args) {
     message.attachments.every(a => {
             let fileID = shortid.generate();
             let memeFileName = memefolder + fileID + "." + a["attachment"].split(".").reverse()[0];
-            console.log(memeFileName);
             request.get(a["attachment"]).on('error', console.error).pipe(fs.createWriteStream(memeFileName));
             memefile[guildID][memeName].push(memeFileName);
         });
     fs.writeFile(memeLogFile, JSON.stringify(memefile), function writeJSON(err) {
         if (err) return console.log(err);
-        console.log("successfully wrote to file");
+        message.channel.send(`successfully added ${memeName}`);
     })
 }
 

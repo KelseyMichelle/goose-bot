@@ -1,7 +1,6 @@
 const embedStructure = require('../config/embed.js');
 const fs = require('fs');
-const memeFolder = "./memes/";
-const memeLog = `${memeFolder}memes.json`;
+const { memeLog } = require("../config/filepaths.js")
 
 function alreadyEmbeded(guildID,name)  {
     for (let x in embed.fields) {
@@ -25,8 +24,7 @@ function listMemes(message, args) {
         embed.title = "available memes";
         if (embed.fields)
         embed.fields.push({
-            "name": `"${memeNames[i]}"`,
-            "value": `${memefile[guildID][memeNames[i]].length} available meme${memefile[guildID][memeNames[i]].length > 1 ? "s" : ""} under this name`
+            "name": `"${memeNames[i]} - ${memefile[guildID][memeNames[i]].length} available meme${memefile[guildID][memeNames[i]].length > 1 ? "s" : ""} under this name"`,
         },);  
     }
     message.channel.send({ embed });
