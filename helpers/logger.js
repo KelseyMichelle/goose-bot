@@ -4,6 +4,7 @@ const request = require(`request`);
 const shortid = require('shortid');
 const meme = require('../commands/meme');
 const Discord = require('discord.js')
+
 function dataLog(file, data, print) {
     fs.appendFile(file, `${data},\n`, function (err) {
         if (err) throw err;
@@ -44,7 +45,6 @@ function logMemes(message, args, type) {
     let memeFileName = fileID + "." + message.attachments.first()["attachment"].split(".").reverse()[0];
     let theFN = memeFileName.split('').join("");
     message.attachments.every(a => {
-            console.log(a["name"]);
             if (a["name"].startsWith("SPOILER_")) {
                 memeFileName = "SPOILER_" + memeFileName;
             }
