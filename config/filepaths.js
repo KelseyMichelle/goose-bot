@@ -1,4 +1,4 @@
-const memefolder = "../memes/";
+const memefolder = "./memes/";
 const memelog = `${memefolder}memes.json`;
 
 module.exports = {
