@@ -38,7 +38,5 @@ module.exports = {
         if (args.length === 0) {
             listCommands(message);
         }
-        
-      
     },
   }
