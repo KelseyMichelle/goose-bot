@@ -8,15 +8,17 @@ function randomIntRange(min, max) {
 }
 
 function fileExists(fileName, memeName, guildID, memefile, edgy) {
-    if ((edgy && fileName.startsWith("SPOILER_")) || (!edgy && !fileName.startsWith("SPOILER_"))) {
-        return true;
-    } 
-    if (!fs.existsSync(memeFolder + fileName)) {
-        memefile[guildID][memeName].splice(memefile[guildID][memeName].indexOf(fileName), 1);
-        fs.writeFileSync(memeLog, JSON.stringify(memefile), function writeJSON(err) {
-            if (err) return console.log(err);
-        })
+    if (!fileName) {
         return false;
+    }
+    if ((edgy && fileName.startsWith("SPOILER_")) || (!edgy && !fileName.startsWith("SPOILER_"))) {
+        if (!fs.existsSync(memeFolder + fileName)) {
+            memefile[guildID][memeName].splice(memefile[guildID][memeName].indexOf(fileName), 1);
+            fs.writeFileSync(memeLog, JSON.stringify(memefile), function writeJSON(err) {
+                if (err) return console.log(err);
+            })
+            return false;
+        }
     }
     return true;
 }
@@ -65,8 +67,7 @@ function postMeme(message, args, edgy) {
     let guildID = message.guild.id;
     let memeName = args.join(" ").toLowerCase();
     let memefile = JSON.parse(fs.readFileSync(memeLog));
-    
-    if (args.length === 0) {
+    if (args.length === 0 && !(memefile[guildID] === undefined)) {
         let memenames = Object.keys(memefile[guildID]);
         let memeNum = memenames.length;
         let memeIndex = randomIntRange(0, memeNum);
@@ -84,7 +85,8 @@ function postMeme(message, args, edgy) {
         let memeFilePath = parseName(memefile[guildID][whichMeme][meme]); 
         if ((memeFilePath.startsWith("SPOILER_") && !edgy) || (!memeFilePath.startsWith("SPOILER_") && edgy)) {
             console.log(`if edgy is ${edgy}, it evaluates to ${memeFilePath.startsWith("SPOILER_") && !edgy}`);
-            if (!countFiles(memeFilePath,guildID, edgy)) {
+            if (!countFiles(memefile,guildID, edgy)) {
+                message.channel.send(`there arent any ${edgy ? "edgy" : "normie"} memes!`);
                 return;
             }
             postMeme(message, args, edgy);
