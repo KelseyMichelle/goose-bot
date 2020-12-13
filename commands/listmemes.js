@@ -33,8 +33,6 @@ function listMemes(message, args) {
     message.channel.send({ embed });
 }
 
-
-
 module.exports = {
     name: "listmemes",
     description: "list the memes we've got in our archive",

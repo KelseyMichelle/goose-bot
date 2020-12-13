@@ -18,7 +18,6 @@ function logMemes(message, args) {
           });
     }
     let file = fs.readFileSync(memeLogFile);
-    console.log(file);
     let memefile = JSON.parse(file);
     let guildID = message.guild.id;
     let memeName = args.join(" ").toLowerCase();
@@ -32,8 +31,8 @@ function logMemes(message, args) {
     }
     message.attachments.every(a => {
             let fileID = shortid.generate();
-            let memeFileName = memefolder + fileID + "." + a["attachment"].split(".").reverse()[0];
-            request.get(a["attachment"]).on('error', console.error).pipe(fs.createWriteStream(memeFileName));
+            let memeFileName = fileID + "." + a["attachment"].split(".").reverse()[0];
+            request.get(a["attachment"]).on('error', console.error).pipe(fs.createWriteStream(memefolder + memeFileName));
             memefile[guildID][memeName].push(memeFileName);
         });
     fs.writeFile(memeLogFile, JSON.stringify(memefile), function writeJSON(err) {
