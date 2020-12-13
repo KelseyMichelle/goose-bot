@@ -57,8 +57,10 @@ function logMemes(message, args, type) {
         fs.writeFile(memeLogFile, JSON.stringify(memefile), function writeJSON(err) {
             if (err) return console.log(err);
             if (type === "archive") {
+                
                 let memeFile = new Discord.MessageAttachment(archiveFolder + theFN, theFN);
                 message.channel.send("#oneforthearchives", memeFile);
+                message.delete();
                 return;
             }
             message.channel.send(`successfully added ${memeName}`)
