@@ -13,7 +13,6 @@ function addMeme(message, args) {
         message.channel.send("no images provided, please try again");
         return;
     } else if (!attachments.every((a) => { return fileFormats.some((f) => { 
-        console.log(a.MessageAttachment);
         return a["attachment"].split("/").reverse()[0]})})) {
         message.channel.send("no valid filetypes provided");
     } else {
