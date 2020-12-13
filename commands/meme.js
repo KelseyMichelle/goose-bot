@@ -18,7 +18,6 @@ function postMeme(message, args) {
         let memeFilePath = memeFolder + memefile[guildID][memeName][meme];
         let memeFile = new Discord.MessageAttachment(memeFilePath, meme);
         message.channel.send(memeFile);
-        console.log(memeFilePath);
         return;
     }
 
@@ -34,12 +33,10 @@ function postMeme(message, args) {
         let memeFilePath = memeFolder + memefile[guildID][memeName][meme];
         let memeFile = new Discord.MessageAttachment(memeFilePath, meme);
         message.channel.send(memeFile);
-        console.log(memeFilePath);
     } else {
         let memeFilePath = memefile[guildID][memeName][0];
         let memeFile = new Discord.MessageAttachment(memeFilePath, memefile[guildID][memeName][0]);
         message.channel.send(memeFile);
-        console.log(memeFilePath);
     }
 }
 

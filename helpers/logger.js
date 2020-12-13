@@ -3,7 +3,6 @@ const memefolder = "./memes/"
 const memeLogFile = `${memefolder}memes.json`;
 const request = require(`request`);
 const shortid = require('shortid');
-const meme = require('../commands/meme');
 
 function dataLog(file, data, print) {
     fs.appendFile(file, `${data},\n`, function (err) {
@@ -19,9 +18,10 @@ function logMemes(message, args) {
           });
     }
     let file = fs.readFileSync(memeLogFile);
+    console.log(file);
     let memefile = JSON.parse(file);
     let guildID = message.guild.id;
-    let memeName = args.join(" ").toLoweCase();
+    let memeName = args.join(" ").toLowerCase();
     if (!(memefile.hasOwnProperty(guildID))) {
         memefile[guildID] = {};
     }
@@ -38,7 +38,8 @@ function logMemes(message, args) {
         });
     fs.writeFile(memeLogFile, JSON.stringify(memefile), function writeJSON(err) {
         if (err) return console.log(err);
-        message.channel.send(`successfully added ${memeName}`);
+        console.log(memefile);
+        message.channel.send(`successfully added ${memeName}`)
     })
 }
 
