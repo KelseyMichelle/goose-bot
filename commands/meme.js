@@ -78,7 +78,7 @@ function postMeme(message, args, edgy) {
              if (countFiles(memefile, guildID, edgy)) {
                 postMeme(message, args, edgy);
              } else {
-                message.channel.send(`there are no ${edgy ? "edgy " : ""}memes stored. go bug kelsey, she probably fucked something up.`)
+                message.channel.send(`there are no ${edgy ? "edgy " : ""}memes stored. go bug kelsey, she probably messed something up.`)
              }
              return;
             };
@@ -104,7 +104,7 @@ function postMeme(message, args, edgy) {
             return;
         }
         if (memefile[guildID][memeName].length === 0) {
-            message.channel.send("alright, heres the deal. Somehow, the name for that meme exists but it doesn't have anything associated. you can add some if you'd like. Or complain to kelsey. Either works tbh.");
+            message.channel.send("alright, heres the deal. Somehow, the name for that meme exists but it doesn't have anything associated. you can add some if you'd like. Or complain to kelsey. Please, though, try to have some agency okay?");
             return;
         }
         if (memefile[guildID][memeName].length > 1) {
@@ -120,7 +120,7 @@ function postMeme(message, args, edgy) {
             message.channel.send(memeFile);
             return;
         } else {
-            message.channel.send("alright, heres the deal. Somehow, the name for that meme exists but it doesn't have anything associated. you can add some if you'd like. Or complain to kelsey. Please, though, try to have some agency okay?.");
+            message.channel.send("alright, heres the deal. Somehow, the name for that meme exists but it doesn't have anything associated. you can add some if you'd like. Or complain to kelsey. Please, though, try to have some agency okay?");
         }
 }
 }
