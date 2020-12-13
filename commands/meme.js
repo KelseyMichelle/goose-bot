@@ -1,6 +1,6 @@
 const fs = require('fs');
 const Discord = require('discord.js');
-const { memeFolder, memeLog } = require("../config/filepaths.js")
+let { memeFolder, memeLog, archiveFolder, archiveLog} = require("../config/filepaths.js")
 const { prefix } = require("../config/config.js");
 
 function randomIntRange(min, max) {
@@ -63,7 +63,11 @@ function parseName(filename) {
     return filename;
 }
 
-function postMeme(message, args, edgy) {
+function postMeme(message, args, edgy, type) {
+    if (type === "archive") {
+        memeFolder = archiveFolder;
+        memeLog = archiveLog;
+    }
     let guildID = message.guild.id;
     let memeName = args.join(" ").toLowerCase();
     let memefile = JSON.parse(fs.readFileSync(memeLog));
@@ -78,7 +82,7 @@ function postMeme(message, args, edgy) {
              if (countFiles(memefile, guildID, edgy)) {
                 postMeme(message, args, edgy);
              } else {
-                message.channel.send(`there are no ${edgy ? "edgy " : ""}memes stored. go bug kelsey, she probably messed something up.`)
+                message.channel.send(`there are no ${edgy ? "edgy " : ""} ${type} stored. go bug kelsey, she probably messed something up.`)
              }
              return;
             };
@@ -86,7 +90,7 @@ function postMeme(message, args, edgy) {
         if ((memeFilePath.startsWith("SPOILER_") && !edgy) || (!memeFilePath.startsWith("SPOILER_") && edgy)) {
             console.log(`if edgy is ${edgy}, it evaluates to ${memeFilePath.startsWith("SPOILER_") && !edgy}`);
             if (!countFiles(memefile,guildID, edgy)) {
-                message.channel.send(`there arent any ${edgy ? "edgy" : "normie"} memes!`);
+                message.channel.send(`there arent any ${edgy ? "edgy" : "normie"} ${type}s!`);
                 return;
             }
             postMeme(message, args, edgy);
@@ -97,14 +101,14 @@ function postMeme(message, args, edgy) {
         message.channel.send(memeFile);
         return;
     } else { if (!(guildID in memefile)) {
-            message.channel.send("unable to find that meme, sorry :(");
+            message.channel.send(`unable to find that ${type}, sorry :(`);
             return;
         } else if(!(memeName in memefile[guildID])) {
-            message.channel.send("unable to find that meme, sorry :(");
+            message.channel.send(`unable to find that ${type}, sorry :(`);
             return;
         }
         if (memefile[guildID][memeName].length === 0) {
-            message.channel.send("alright, heres the deal. Somehow, the name for that meme exists but it doesn't have anything associated. you can add some if you'd like. Or complain to kelsey. Please, though, try to have some agency okay?");
+            message.channel.send(`alright, heres the deal. Somehow, the name for that meme exists but it doesn't have anything associated. you can add some if you'd like. Or complain to kelsey. Please, though, try to have some agency okay?`);
             return;
         }
         if (memefile[guildID][memeName].length > 1) {
@@ -120,7 +124,7 @@ function postMeme(message, args, edgy) {
             message.channel.send(memeFile);
             return;
         } else {
-            message.channel.send("alright, heres the deal. Somehow, the name for that meme exists but it doesn't have anything associated. you can add some if you'd like. Or complain to kelsey. Please, though, try to have some agency okay?");
+            message.channel.send(`alright, heres the deal. Somehow, the name for that ${type} exists but it doesn't have anything associated. you can add some if you'd like. Or complain to kelsey. Please, though, try to have some agency okay?`);
         }
 }
 }
@@ -131,12 +135,15 @@ module.exports = {
     syntax: `${prefix+this.name} [meme name] (note: quotation marks are not needed here)`,
     access_level: 0,
     hidden: false,
-    execute(message, args, edgy) {
+    execute(message, args, edgy, type) {
         if (edgy === undefined) {
-            postMeme(message, args, false);
+            postMeme(message, args, false, "meme");
         }
         else {
-            postMeme(message, args, edgy);
+            if(type === undefined) {
+                postMeme(message, args, edgy, "meme");
+            }
+            postMeme(message, args, edgy, type)
         }
     },
   };
