@@ -1,7 +1,13 @@
-require('./config/genConfig.js');
+const fs = require("fs");
+const configPath = "./config/config.json";
+if(!fs.existsSync(configPath)) {
+  console.log("you don't have a config file! try running 'node genConfig.js' to do so");
+  process.exit(1);
+}
+
 const { prefix, token } = require("./config/config.js");
 const Discord = require("discord.js");
-const fs = require("fs");
+
 const client = new Discord.Client();
 const access = require('./helpers/hasaccess.js');
 const { log } = require('./helpers/logger.js');
