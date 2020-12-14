@@ -1,12 +1,12 @@
-const fs = require("fs");
-const Discord = require("discord.js");
+const fs = require('fs');
+const Discord = require('discord.js');
 let {
   memeFolder,
   memeLog,
   archiveFolder,
   archiveLog,
-} = require("../config/filepaths.js");
-const { prefix } = require("../config/config.js");
+} = require('../config/filepaths.js');
+const { prefix } = require('../config/config.js');
 
 function randomIntRange(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -17,8 +17,8 @@ function fileExists(fileName, memeName, guildID, memefile, edgy) {
     return false;
   }
   if (
-    (edgy && fileName.startsWith("SPOILER_")) ||
-    (!edgy && !fileName.startsWith("SPOILER_"))
+    (edgy && fileName.startsWith('SPOILER_')) ||
+    (!edgy && !fileName.startsWith('SPOILER_'))
   ) {
     if (!fs.existsSync(memeFolder + fileName)) {
       memefile[guildID][memeName].splice(
@@ -60,7 +60,7 @@ function countFiles(memefile, guildID, edgy) {
   for (let x = 0; x < keys.length; ++x) {
     if (edgy) {
       for (let i = 0; i < memefile[guildID][keys[x]].length; ++i) {
-        if (memefile[guildID][keys[x]][i].startsWith("SPOILER_")) {
+        if (memefile[guildID][keys[x]][i].startsWith('SPOILER_')) {
           return true;
         }
       }
@@ -76,19 +76,19 @@ function parseName(filename) {
   if (!filename) {
     return false;
   }
-  if (filename.startsWith("./memes")) {
-    return filename.split("/").reverse()[0];
+  if (filename.startsWith('./memes')) {
+    return filename.split('/').reverse()[0];
   }
   return filename;
 }
 
 function postMeme(message, args, edgy, type) {
-  if (type === "archive") {
+  if (type === 'archive') {
     memeFolder = archiveFolder;
     memeLog = archiveLog;
   }
   let guildID = message.guild.id;
-  let memeName = args.join(" ").toLowerCase();
+  let memeName = args.join(' ').toLowerCase();
   let memefile = JSON.parse(fs.readFileSync(memeLog));
   if (args.length === 0 && !(memefile[guildID] === undefined)) {
     let memenames = Object.keys(memefile[guildID]);
@@ -111,7 +111,7 @@ function postMeme(message, args, edgy, type) {
       } else {
         message.channel.send(
           `there are no ${
-            edgy ? "edgy " : ""
+            edgy ? 'edgy ' : ''
           } ${type} stored. go bug kelsey, she probably messed something up.`
         );
       }
@@ -119,12 +119,12 @@ function postMeme(message, args, edgy, type) {
     }
     let memeFilePath = parseName(memefile[guildID][whichMeme][meme]);
     if (
-      (memeFilePath.startsWith("SPOILER_") && !edgy) ||
-      (!memeFilePath.startsWith("SPOILER_") && edgy)
+      (memeFilePath.startsWith('SPOILER_') && !edgy) ||
+      (!memeFilePath.startsWith('SPOILER_') && edgy)
     ) {
       if (!countFiles(memefile, guildID, edgy)) {
         message.channel.send(
-          `there arent any ${edgy ? "edgy" : "normie"} ${type}s!`
+          `there arent any ${edgy ? 'edgy' : 'normie'} ${type}s!`
         );
         return;
       }
@@ -194,8 +194,8 @@ function postMeme(message, args, edgy, type) {
 }
 
 module.exports = {
-  name: "meme",
-  description: "posts a meme from the meme archive.",
+  name: 'meme',
+  description: 'posts a meme from the meme archive.',
   syntax: `${
     prefix + this.name
   } [meme name] (note: quotation marks are not needed here)`,
@@ -204,10 +204,10 @@ module.exports = {
   execute(message, args, edgy, type) {
     if (type === undefined) {
       if (edgy === undefined) {
-        postMeme(message, args, false, "memes");
+        postMeme(message, args, false, 'memes');
         return;
       }
-      postMeme(message, args, edgy, "memes");
+      postMeme(message, args, edgy, 'memes');
       return;
     } else {
       postMeme(message, args, edgy, type);
