@@ -1,16 +1,18 @@
 const fs = require("fs");
 const configPath = "./config/config.json";
-if(!fs.existsSync(configPath)) {
-  console.log("you don't have a config file! try running 'node genConfig.js' to do so");
+if (!fs.existsSync(configPath)) {
+  console.log(
+    "you don't have a config file! try running 'node genConfig.js' to do so"
+  );
   process.exit(1);
 }
-const path = require('path');
+const path = require("path");
 const { prefix, token } = require("./config/config.js");
 const Discord = require("discord.js");
 
 const client = new Discord.Client();
-const access = require('./helpers/hasaccess.js');
-const { log } = require('./helpers/logger.js');
+const access = require("./helpers/hasaccess.js");
+const { log } = require("./helpers/logger.js");
 
 global.appRoot = path.resolve(__dirname);
 
@@ -44,17 +46,21 @@ client.on("message", (message) => {
   if (!client.commands.has(command)) {
     logInfo += `command: "${message.content}", result: "error: the ${prefix}${command} command does not exist!"}`;
     message.reply(`the !${command} command does not exist!`);
-  }
-  else { 
+  } else {
     try {
       logInfo += `command: "${message.content}", `;
-      if (access.has_permission.check_tier(message, client.commands.get(command).access_level)) {
+      if (
+        access.has_permission.check_tier(
+          message,
+          client.commands.get(command).access_level
+        )
+      ) {
         client.commands.get(command).execute(message, args);
         logInfo += `result: "success"}`;
-    } else {
+      } else {
         message.channel.send("you do not have permission to do this");
         logInfo += `result: "inadequate permissions"}`;
-    }
+      }
     } catch (error) {
       console.error(error);
       message.reply("failure to execute command");
