@@ -47,7 +47,7 @@ const responseSchema = {
   properties: {
     message: {
       description: 'response text',
-      required: true,
+      default: '',
       type: 'string',
     },
     withImage: {
