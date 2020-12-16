@@ -20,7 +20,6 @@ function postImage(message, filePath) {
 
 function fetchImage(message, guildFolder, args, data) {
   let title = args.join(' ');
-  console.log(data);
   if (!data[title]) {
     message.channel.send(
       "there doesn't appear to be a picture under that name"
@@ -69,7 +68,6 @@ function newImage(message, args, guildFolder, config, data) {
     fileName = 'SPOILER_' + fileName;
   }
   let filePath = guildFolder + fileName;
-  console.log(message.attachments.first().attachment);
   //   request
   //     .get(message.attachments.first().attachment)
   //     .on('error', console.error)
@@ -98,7 +96,6 @@ function newImage(message, args, guildFolder, config, data) {
         data[title] = [];
       }
       data[title].push(fileName);
-      console.log(data);
       fs.writeFile(guildFolder + 'data.json', JSON.stringify(data), (err) => {
         if (err) console.log(error);
         if (config.deleteOriginal) {
@@ -127,7 +124,6 @@ function processImage(message, args, command) {
 
   let spoilers = data.defaultSpoiler;
   let regular = true;
-  console.log(args);
   if (args.length === 1) {
     if (args[0].toLowerCase() === '-s') {
       spoilers = true;
@@ -141,7 +137,6 @@ function processImage(message, args, command) {
       args.shift();
     }
   }
-  console.log(args);
   if (args.length === 0) {
     if (!message.attachments.first()) {
       let fileNames = fs.readdirSync(guildFolder);
