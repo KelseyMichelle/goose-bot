@@ -38,7 +38,10 @@ client.once('ready', () => {
 
 client.on('message', (message) => {
   let logInfo = `{author: "${message.author.tag}", authorID: "${message.author}", `;
-  if (message.content.toLowerCase().endsWith('(y/n)')) {
+  if (
+    message.content.toLowerCase().endsWith('(y/n)') ||
+    message.content.toLowerCase().endsWith('y/n')
+  ) {
     logInfo += `command: "${message.content}"`;
     message.react('🇾');
     message.react('🇳');

@@ -1,10 +1,10 @@
 const https = require('https');
 const shortid = require('shortid');
-const meme = require('../commands/meme');
 const Discord = require('discord.js');
 const fileFormats = ['.png', '.jpeg', '.jpg', '.bmp', '.gif'];
 const imageFolder = './images/';
 const fs = require('fs');
+const path = require('path');
 
 function randomIntRange(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -54,10 +54,16 @@ function fetchImage(message, guildFolder, args, data) {
 }
 
 function newImage(message, args, guildFolder, config, data) {
-  let fileName =
-    shortid.generate() +
-    '.' +
-    message.attachments.first().name.split('.').reverse()[0];
+  let extension = path.extname(message.attachments.first().name);
+  if (!extension in fileFormats) {
+    message.channel.send(
+      `sorry, that was not a valid file extension. acceptable file extensions: ${fileFormats.join(
+        ', '
+      )}`
+    );
+    return;
+  }
+  let fileName = shortid.generate() + '.' + extension;
 
   if (message.attachments.first().name.startsWith('SPOILER_')) {
     fileName = 'SPOILER_' + fileName;
@@ -108,7 +114,7 @@ function processImage(message, args, command) {
 
   if (!fs.existsSync(guildFolder)) {
     fs.mkdirSync(guildFolder);
-    fs.writeFileSync(`${guildFolder}/data.json`, {});
+    fs.writeFileSync(`${guildFolder}/data.json`, '{}');
   }
 
   let config = require(`../images/${command}/${command}Config.json`);
@@ -119,6 +125,23 @@ function processImage(message, args, command) {
   // if no, check if there are attachments. if no attachments, pull up random image.
   //
 
+  let spoilers = data.defaultSpoiler;
+  let regular = true;
+  console.log(args);
+  if (args.length === 1) {
+    if (args[0].toLowerCase() === '-s') {
+      spoilers = true;
+      regular = false;
+      args.shift();
+    } else if (args[0].toLowerCase() === '-a') {
+      spoilers = true;
+      args.shift();
+    } else if (args[0].toLowerCase() === '-n') {
+      spoilers = false;
+      args.shift();
+    }
+  }
+  console.log(args);
   if (args.length === 0) {
     if (!message.attachments.first()) {
       let fileNames = fs.readdirSync(guildFolder);
@@ -130,20 +153,20 @@ function processImage(message, args, command) {
       let pick = randomIntRange(0, num);
       while (num > 0) {
         if (!fileNames[pick].endsWith('.json')) {
-          if (
-            !config.defaultSpoiler &&
-            !fileNames[pick].startsWith('SPOILER_')
-          ) {
+          if (!spoilers && !fileNames[pick].startsWith('SPOILER_')) {
             break;
-          } else if (config.defaultSpoiler) {
+          } else if (!regular && fileNames[pick].startsWith('SPOILER_')) {
+            break;
+          } else if (spoilers && regular) {
             break;
           }
         }
+
         fileNames.splice(pick, 1);
         num -= 1;
         pick = randomIntRange(0, num);
       }
-      if (!fileNames) {
+      if (num === 0) {
         message.channel.send('that image archive is empty, unfortunately');
         return;
       }

@@ -7,7 +7,6 @@ let {
 } = require('../config/filepaths.js');
 const request = require(`request`);
 const shortid = require('shortid');
-const meme = require('../commands/meme');
 const Discord = require('discord.js');
 
 function dataLog(file, data, print) {
