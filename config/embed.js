@@ -1,15 +1,15 @@
-const { avatar } = require("./config.js");
+const { avatar } = require('./config.js');
 function newembed() {
   let em = {
-    title: "title",
-    url: "https://discordapp.com",
+    title: 'title',
+    url: 'https://github.com/KelseyMichelle/goose-bot',
     color: 14375904,
-    timestamp: "2020-12-12T13:49:56.750Z",
+    timestamp: new Date(),
     thumbnail: {
       url: avatar,
     },
     author: {
-      name: "goose",
+      name: 'goose',
     },
     fields: [],
   };

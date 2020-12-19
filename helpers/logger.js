@@ -1,14 +1,13 @@
-const fs = require("fs");
+const fs = require('fs');
 let {
   archiveFolder,
   memeFolder,
   memeLog,
   archiveLog,
-} = require("../config/filepaths.js");
+} = require('../config/filepaths.js');
 const request = require(`request`);
-const shortid = require("shortid");
-const meme = require("../commands/meme");
-const Discord = require("discord.js");
+const shortid = require('shortid');
+const Discord = require('discord.js');
 
 function dataLog(file, data, print) {
   fs.appendFile(file, `${data},\n`, function (err) {
@@ -25,7 +24,7 @@ function logMemes(message, args, type) {
   let memeLogFile = memeLog;
   let memeFolders = memeFolder;
 
-  if (type === "archive") {
+  if (type === 'archive') {
     memeLogFile = archiveLog;
     memeFolders = archiveFolder;
   }
@@ -37,7 +36,7 @@ function logMemes(message, args, type) {
   let file = fs.readFileSync(memeLogFile);
   let memefile = JSON.parse(file);
   let guildID = message.guild.id;
-  let memeName = args.join(" ").toLowerCase();
+  let memeName = args.join(' ').toLowerCase();
   if (!memefile.hasOwnProperty(guildID)) {
     memefile[guildID] = {};
   }
@@ -48,21 +47,21 @@ function logMemes(message, args, type) {
   let fileID = shortid.generate();
   let memeFileName =
     fileID +
-    "." +
-    message.attachments.first()["attachment"].split(".").reverse()[0];
-  let theFN = memeFileName.split("").join("");
+    '.' +
+    message.attachments.first()['attachment'].split('.').reverse()[0];
+  let theFN = memeFileName.split('').join('');
   message.attachments.every((a) => {
-    if (a["name"].startsWith("SPOILER_")) {
-      memeFileName = "SPOILER_" + memeFileName;
+    if (a['name'].startsWith('SPOILER_')) {
+      memeFileName = 'SPOILER_' + memeFileName;
     }
     request
-      .get(a["attachment"])
-      .on("error", console.error)
+      .get(a['attachment'])
+      .on('error', console.error)
       .pipe(fs.createWriteStream(memeFolders + memeFileName))
-      .on("finish", writeFile);
+      .on('finish', writeFile);
     memefile[guildID][memeName].push(memeFileName);
     fileID = shortid.generate();
-    memeFileName = fileID + "." + a["attachment"].split(".").reverse()[0];
+    memeFileName = fileID + '.' + a['attachment'].split('.').reverse()[0];
   });
   function writeFile() {
     fs.writeFile(
@@ -70,12 +69,12 @@ function logMemes(message, args, type) {
       JSON.stringify(memefile),
       function writeJSON(err) {
         if (err) return console.log(err);
-        if (type === "archive") {
+        if (type === 'archive') {
           let memeFile = new Discord.MessageAttachment(
             archiveFolder + theFN,
             theFN
           );
-          message.channel.send("#oneforthearchives", memeFile);
+          message.channel.send('#oneforthearchives', memeFile);
           message.delete();
           return;
         }
