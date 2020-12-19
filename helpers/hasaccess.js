@@ -1,17 +1,18 @@
 let permissions = {
   0: [],
-  1: ["MANAGE_MESSAGES"],
-  2: ["KICK_MEMBERS"],
-  3: ["BAN_MEMBERS"],
-  4: ["MOVE_MEMBERS"],
-  5: ["MANAGE_NICKNAMES"],
-  6: ["MANAGE_ROLES"],
+  1: ['MANAGE_MESSAGES'],
+  2: ['KICK_MEMBERS'],
+  3: ['BAN_MEMBERS'],
+  4: ['MOVE_MEMBERS'],
+  5: ['MANAGE_NICKNAMES'],
+  6: ['MANAGE_ROLES'],
+  7: ['ADMINISTRATOR'],
 };
 
 function evalAccess(message, level) {
   if (
     message.guild.ownerID === message.author.id ||
-    message.member.hasPermission("ADMINISTRATOR")
+    message.member.hasPermission('ADMINISTRATOR')
   )
     return true;
   let can_do = false;
@@ -36,7 +37,7 @@ function evalAccess(message, level) {
 function evalPerms(message, perms) {
   if (
     message.guild.ownerID === message.author.id ||
-    message.member.hasPermission("ADMINISTRATOR")
+    message.member.hasPermission('ADMINISTRATOR')
   )
     return true;
   let can_do = false;

@@ -12,6 +12,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const access = require('./helpers/hasaccess.js');
 const { log } = require('./helpers/logger.js');
+const modLog = require('./modlog/log.js');
 
 global.appRoot = path.resolve(__dirname);
 
@@ -36,6 +37,8 @@ client.once('ready', () => {
   console.log('Ready!');
 });
 
+// client.on('guildMemberRemove', modLog.remove);
+// client.on('guildMemberAdd', modLog.add);
 client.on('message', (message) => {
   let logInfo = `{author: "${message.author.tag}", authorID: "${message.author}", `;
   if (

@@ -2,7 +2,7 @@ const { avatar } = require('./config.js');
 function newembed() {
   let em = {
     title: 'title',
-    url: 'https://discordapp.com',
+    url: 'https://github.com/KelseyMichelle/goose-bot',
     color: 14375904,
     timestamp: new Date(),
     thumbnail: {

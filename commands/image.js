@@ -5,6 +5,7 @@ const fileFormats = ['.png', '.jpeg', '.jpg', '.bmp', '.gif'];
 const imageFolder = './images/';
 const fs = require('fs');
 const path = require('path');
+const embedStructure = require('../config/embed.js');
 
 function randomIntRange(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -79,9 +80,10 @@ function newImage(message, args, guildFolder, config, data) {
     file.on('finish', respond);
     file.on('error', console.log);
   });
+
   function respond() {
     let response = { text: config.writeResponse.message, image: '' };
-
+    let title = args.join(' ');
     if (config.writeResponse.respond) {
       response.response = config.writeResponse.message;
       if (config.writeResponse.withImage) {
@@ -91,19 +93,34 @@ function newImage(message, args, guildFolder, config, data) {
         );
       }
       message.channel.send(response.text, response.image);
-      let title = args.join(' ');
-      if (!data[title]) {
-        data[title] = [];
-      }
-      data[title].push(fileName);
-      fs.writeFile(guildFolder + 'data.json', JSON.stringify(data), (err) => {
-        if (err) console.log(error);
-        if (config.deleteOriginal) {
-          message.delete();
-        }
-      });
     }
+    if (!data[title]) {
+      data[title] = [];
+    }
+    data[title].push(fileName);
+
+    fs.writeFile(guildFolder + 'data.json', JSON.stringify(data), (err) => {
+      if (err) console.log(error);
+      if (config.deleteOriginal) {
+        message.delete();
+      }
+    });
   }
+}
+function listImages(message, guildFolder, command) {
+  let data = require(`.${guildFolder}data.json`);
+  let embed = embedStructure();
+  embed.title = `saved ${command} images`;
+  let result = '';
+  console.log(data);
+  Object.keys(data).forEach(
+    (x) => (result += x + ': ' + data[x].length + '\n')
+  );
+  embed.fields.push({
+    name: 'image titles & images available under them',
+    value: result != '' ? result : '[none found]',
+  });
+  message.channel.send({ embed });
 }
 // function sendImage(message, imagePath) {}
 function processImage(message, args, command) {
@@ -135,6 +152,9 @@ function processImage(message, args, command) {
     } else if (args[0].toLowerCase() === '-n') {
       spoilers = false;
       args.shift();
+    } else if (args[0].toLowerCase() === '-list') {
+      listImages(message, guildFolder, command);
+      return;
     }
   }
   if (args.length === 0) {
@@ -204,7 +224,7 @@ module.exports = {
   name: 'image',
   description: 'posts an image from the archive.',
   access_level: 0,
-  hidden: false,
+  hidden: true,
   execute(message, args, command) {
     return processImage(message, args, command);
   },

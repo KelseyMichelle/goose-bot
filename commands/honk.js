@@ -5,7 +5,7 @@ module.exports = {
   hidden: false,
   execute(message, args) {
     message.channel.send(
-      ':regional_indicator_h: :regional_indicator_o: :regional_indicator_n: :regional_indicator_k: !'
+      ':regional_indicator_h: :regional_indicator_o: :regional_indicator_n: :regional_indicator_k: :exclamation: '
     );
   },
 };
