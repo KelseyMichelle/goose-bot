@@ -7,6 +7,7 @@ module.exports = {
   access_level: 0,
   execute(message, args) {
     let user = message.mentions.members.first();
+
     if (!user) {
       message.channel.send('no user mentioned');
     } else if (message.mentions.members.keyArray().length > 1) {
@@ -15,7 +16,9 @@ module.exports = {
       );
     } else {
       let nick = Util.cleanContent(args.slice(1).join(' '), message);
+      let oldName = user.displayName;
       user.setNickname(nick);
+      message.channel.send(`${oldName} is now ${nick}`);
     }
   },
 };
